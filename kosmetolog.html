@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Нателла — косметолог</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+<style>
+/* ── reset & base ─────────────────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --rose:    #b05a7a;
+  --rose-lt: #fdf0f5;
+  --rose-md: #f5d8e5;
+  --rose-dk: #7a2a4a;
+  --cream:   #fffcfa;
+  --cream2:  #fdf8f4;
+  --cream3:  #f8ede8;
+  --ink:     #2e1520;
+  --muted:   #9a7080;
+  --border:  #f0ddd8;
+  --green:   #3a8a60;
+  --green-lt:#f0faf5;
+  --red:     #c05070;
+  --red-lt:  #fceef0;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  line-height:1.6;
+  min-height:100vh;
+}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;font-weight:400;line-height:1.2}
+button{cursor:pointer;font-family:inherit}
+input,select,textarea{font-family:inherit}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+/* ── page / view system ──────────────────────────────────────── */
+.page{display:none}
+.page.active{display:block}
+
+/* ── nav ─────────────────────────────────────────────────────── */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(255,252,250,0.93);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
+}
+.nav-inner{
+  max-width:1100px;margin:0 auto;
+  padding:0 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  height:64px;
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.25rem;color:var(--rose);
+  letter-spacing:.05em;cursor:pointer;
+}
+.nav-links{display:flex;gap:6px}
+.nav-btn{
+  background:transparent;
+  border:1px solid transparent;
+  border-radius:50px;
+  padding:6px 16px;
+  font-size:.85rem;color:var(--muted);
+  transition:all .2s;
+}
+.nav-btn:hover{background:var(--rose-lt);color:var(--rose)}
+.nav-btn.active{
+  background:var(--rose-lt);
+  color:var(--rose);
+  border-color:var(--rose-md);
+}
+
+/* ── hero ─────────────────────────────────────────────────────── */
+.hero{
+  background:radial-gradient(ellipse 80% 60% at 60% 40%,#fde8f0 0%,var(--cream2) 60%,#f5eeff 100%);
+  padding:6rem 1.5rem 5rem;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 20% 80%,rgba(176,90,122,.08) 0%,transparent 50%),
+    radial-gradient(circle at 80% 20%,rgba(200,150,220,.08) 0%,transparent 50%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  font-size:.75rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--rose);
+  margin-bottom:1.25rem;
+}
+.hero h1{
+  font-size:clamp(2.8rem,7vw,5rem);
+  color:var(--ink);margin-bottom:1.25rem;
+}
+.hero h1 em{color:var(--rose);font-style:italic}
+.hero-sub{
+  font-size:1.05rem;color:var(--muted);
+  max-width:480px;margin:0 auto 2.5rem;
+  line-height:1.75;
+}
+.btn-primary{
+  display:inline-block;
+  background:var(--rose);color:#fff;
+  border:none;border-radius:50px;
+  padding:15px 40px;font-size:1rem;
+  letter-spacing:.04em;
+  transition:transform .2s,box-shadow .2s;
+  box-shadow:0 4px 24px rgba(176,90,122,.25);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(176,90,122,.35)}
+.btn-primary:active{transform:translateY(0)}
+
+/* ── about ────────────────────────────────────────────────────── */
+.about{
+  max-width:1000px;margin:0 auto;
+  padding:5rem 1.5rem;
+  display:grid;grid-template-columns:1fr 1.4fr;
+  gap:4rem;align-items:center;
+}
+.about-photo{
+  width:100%;max-width:340px;margin:0 auto;
+  aspect-ratio:3/4;
+  background:linear-gradient(150deg,var(--rose-lt) 0%,#fde8dc 100%);
+  border-radius:2rem;
+  display:flex;align-items:center;justify-content:center;
+  font-size:6rem;
+  position:relative;overflow:hidden;
+}
+.about-photo::after{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(circle at 70% 30%,rgba(255,255,255,.4),transparent 70%);
+}
+.section-eyebrow{
+  font-size:.72rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--rose);margin-bottom:.75rem;
+}
+.about h2{font-size:2.2rem;color:var(--ink);margin-bottom:1rem}
+.about p{color:var(--muted);line-height:1.8;margin-bottom:.85rem;font-size:.97rem}
+.about-stats{display:flex;gap:2rem;margin-top:2rem;flex-wrap:wrap}
+.stat-n{font-size:1.6rem;font-family:'Cormorant Garamond',serif;color:var(--rose);font-weight:400}
+.stat-l{font-size:.78rem;color:var(--muted);margin-top:2px}
+
+/* ── services section ─────────────────────────────────────────── */
+.services-sec{background:var(--cream2);padding:5rem 1.5rem}
+.services-sec h2{
+  font-size:2.5rem;text-align:center;
+  color:var(--ink);margin-bottom:.5rem;
+}
+.services-sec .sec-sub{
+  text-align:center;color:var(--muted);
+  margin-bottom:3rem;font-size:.95rem;
+}
+.services-grid{
+  max-width:1000px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:1.25rem;
+}
+.svc-card{
+  background:#fff;border:1px solid var(--border);
+  border-radius:1.25rem;padding:1.75rem;
+  cursor:pointer;transition:border-color .2s,transform .2s;
+  position:relative;overflow:hidden;
+}
+.svc-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--rose-lt),transparent);
+  opacity:0;transition:opacity .3s;
+}
+.svc-card:hover{border-color:var(--rose-md);transform:translateY(-3px)}
+.svc-card:hover::before{opacity:1}
+.svc-icon{font-size:2rem;margin-bottom:1rem;position:relative;z-index:1}
+.svc-name{font-size:1rem;font-weight:500;color:var(--ink);margin-bottom:.35rem;position:relative;z-index:1}
+.svc-dur{font-size:.82rem;color:var(--muted);margin-bottom:.75rem;position:relative;z-index:1}
+.svc-price{font-size:1.05rem;font-family:'Cormorant Garamond',serif;color:var(--rose);font-weight:500;position:relative;z-index:1}
+.services-cta{text-align:center;margin-top:2.5rem}
+.btn-outline{
+  background:transparent;color:var(--rose);
+  border:1.5px solid var(--rose-md);border-radius:50px;
+  padding:12px 32px;font-size:.95rem;
+  transition:all .2s;
+}
+.btn-outline:hover{background:var(--rose-lt);border-color:var(--rose)}
+
+/* ── footer ───────────────────────────────────────────────────── */
+footer{
+  background:var(--ink);
+  color:#d4a8b8;
+  padding:3rem 1.5rem;text-align:center;
+}
+footer .ft-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;color:var(--rose-md);
+  margin-bottom:.75rem;
+}
+footer p{font-size:.88rem;color:#9a7080;margin:.35rem 0}
+footer a{color:var(--rose-md)}
+
+/* ── booking page ─────────────────────────────────────────────── */
+.booking-wrap{max-width:700px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.booking-wrap h2{font-size:2rem;color:var(--ink);margin-bottom:.3rem}
+.booking-sub{color:var(--muted);margin-bottom:2.25rem;font-size:.92rem}
+
+/* progress bar */
+.progress-bar{display:flex;align-items:center;margin-bottom:2.5rem}
+.progress-dot{
+  width:30px;height:30px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;font-weight:500;flex-shrink:0;
+  transition:all .3s;
+}
+.progress-dot.done{background:var(--rose);color:#fff}
+.progress-dot.current{background:var(--rose-lt);color:var(--rose);border:1.5px solid var(--rose)}
+.progress-dot.todo{background:var(--cream3);color:var(--muted)}
+.progress-line{flex:1;height:2px;transition:background .3s}
+.progress-line.done{background:var(--rose)}
+.progress-line.todo{background:var(--border)}
+
+/* step panels */
+.step{display:none}
+.step.active{display:block}
+
+/* service list */
+.svc-list{display:flex;flex-direction:column;gap:.75rem}
+.svc-item{
+  background:#fff;border:1px solid var(--border);
+  border-radius:14px;padding:1.1rem 1.4rem;
+  cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;
+  transition:border-color .2s;
+}
+.svc-item:hover,.svc-item.selected{border-color:var(--rose);background:var(--rose-lt)}
+.svc-item-name{font-size:.97rem;font-weight:500;color:var(--ink)}
+.svc-item-dur{font-size:.8rem;color:var(--muted);margin-top:2px}
+.svc-item-price{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--rose)}
+
+/* date grid */
+.date-grid{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.5rem}
+.date-btn{
+  background:#fff;border:1px solid var(--border);
+  border-radius:12px;padding:10px 14px;
+  text-align:center;min-width:64px;
+  transition:all .2s;
+}
+.date-btn:hover:not(:disabled),.date-btn.selected{
+  border-color:var(--rose);background:var(--rose-lt);color:var(--rose);
+}
+.date-btn:disabled{opacity:.5;cursor:default;background:var(--cream3)}
+.date-btn .date-num{font-size:1.1rem;font-weight:500;color:var(--ink)}
+.date-btn .date-wd{font-size:.7rem;color:var(--muted);text-transform:capitalize}
+.date-btn.selected .date-num,.date-btn.selected .date-wd{color:var(--rose)}
+
+/* time grid */
+.time-grid{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.5rem}
+.time-btn{
+  background:#fff;border:1px solid var(--border);
+  border-radius:12px;padding:12px 16px;
+  min-width:88px;text-align:center;
+  transition:all .2s;
+}
+.time-btn:hover:not(:disabled),.time-btn.selected{
+  border-color:var(--rose);background:var(--rose-lt);
+}
+.time-btn:disabled{cursor:default}
+.time-btn .t-hour{font-size:1.05rem;font-weight:500;color:var(--ink)}
+.time-btn .t-status{font-size:.68rem;font-weight:500;margin-top:3px;letter-spacing:.05em;text-transform:uppercase}
+.time-btn.free .t-status{color:var(--green)}
+.time-btn.booked{background:#fff7f8;border-color:#f0c8d0}
+.time-btn.booked .t-hour{color:#d08090}
+.time-btn.booked .t-status{color:var(--red)}
+.time-btn.closed{background:var(--cream3);border-color:#e0d0d8}
+.time-btn.closed .t-hour{color:#b0909a}
+.time-btn.closed .t-status{color:#b0909a}
+.time-btn.selected .t-hour,.time-btn.selected .t-status{color:var(--rose)}
+
+/* confirm card */
+.confirm-card{
+  background:#fff;border:1px solid var(--border);
+  border-radius:1.25rem;padding:2rem;
+}
+.confirm-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:.75rem 0;border-bottom:1px solid var(--cream3);
+  font-size:.95rem;
+}
+.confirm-row:last-of-type{border-bottom:none}
+.confirm-row .cr-label{color:var(--muted)}
+.confirm-row .cr-value{font-weight:500;color:var(--ink)}
+.confirm-note{
+  font-size:.83rem;color:var(--muted);
+  margin:1.25rem 0 1.5rem;line-height:1.65;
+}
+.btn-tg{
+  width:100%;background:var(--rose);color:#fff;
+  border:none;border-radius:50px;
+  padding:15px;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;
+  gap:10px;transition:opacity .2s;
+}
+.btn-tg:hover{opacity:.9}
+.tg-icon{width:22px;height:22px;fill:#fff;flex-shrink:0}
+
+/* success */
+.success-block{text-align:center;padding:3.5rem 1rem}
+.success-block .s-icon{font-size:4rem;margin-bottom:1.5rem}
+.success-block h3{font-size:1.8rem;color:var(--ink);margin-bottom:.75rem}
+.success-block p{color:var(--muted);margin-bottom:2rem;line-height:1.7}
+
+/* back btn */
+.back-btn{
+  background:none;border:none;
+  color:var(--rose);font-size:.88rem;
+  display:flex;align-items:center;gap:6px;
+  margin-bottom:1.25rem;padding:0;
+  transition:opacity .2s;
+}
+.back-btn:hover{opacity:.7}
+
+/* step title */
+.step-title{font-size:1rem;font-weight:500;color:var(--ink);margin-bottom:1rem}
+
+/* ── admin ─────────────────────────────────────────────────────── */
+.admin-wrap{max-width:960px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.login-card{
+  max-width:380px;margin:4rem auto;
+  background:#fff;border:1px solid var(--border);
+  border-radius:1.5rem;padding:2.5rem;
+}
+.login-card h2{font-size:1.8rem;margin-bottom:.3rem}
+.login-card p{font-size:.88rem;color:var(--muted);margin-bottom:2rem}
+.form-label{font-size:.82rem;color:var(--muted);display:block;margin-bottom:.4rem}
+.form-input{
+  width:100%;padding:11px 14px;
+  border:1px solid var(--border);border-radius:10px;
+  font-size:.95rem;outline:none;
+  transition:border-color .2s;
+}
+.form-input:focus{border-color:var(--rose)}
+.form-error{color:var(--red);font-size:.82rem;margin-top:.4rem}
+.login-hint{font-size:.75rem;color:#c0a0a8;text-align:center;margin-top:1rem}
+
+/* admin tabs */
+.admin-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}
+.admin-header h2{font-size:1.8rem}
+.admin-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:2rem}
+.tab-btn{
+  background:none;border:none;
+  border-bottom:2.5px solid transparent;
+  padding:10px 20px 12px;
+  font-size:.9rem;color:var(--muted);
+  transition:all .2s;margin-bottom:-1px;
+}
+.tab-btn.active{color:var(--rose);border-bottom-color:var(--rose)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* admin schedule */
+.day-strip{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.25rem}
+.day-pill{
+  background:#fff;border:1px solid var(--border);
+  border-radius:10px;padding:7px 12px;
+  font-size:.82rem;transition:all .2s;
+}
+.day-pill:hover,.day-pill.selected{
+  border-color:var(--rose);background:var(--rose-lt);color:var(--rose);
+}
+.day-actions{display:flex;gap:.6rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.btn-sm{
+  font-size:.82rem;border:1px solid;border-radius:8px;
+  padding:7px 14px;transition:all .2s;
+}
+.btn-close-day{background:var(--red-lt);color:var(--red);border-color:#f0c0cc}
+.btn-open-day{background:var(--green-lt);color:var(--green);border-color:#b8e8cc}
+.slots-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  gap:.75rem;
+}
+.slot-card{
+  border:1px solid var(--border);border-radius:14px;padding:1rem;
+}
+.slot-card.free{background:var(--green-lt);border-color:#c8e8d0}
+.slot-card.booked{background:var(--red-lt);border-color:#f0c0cc}
+.slot-card.closed{background:var(--cream3);border-color:#e0d0d8}
+.slot-time{font-size:1.15rem;font-weight:500;color:var(--ink)}
+.slot-badge{
+  display:inline-block;
+  font-size:.65rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;
+  padding:2px 8px;border-radius:50px;margin:.35rem 0 .6rem;
+}
+.slot-card.free .slot-badge{background:#c8e8d0;color:#206040}
+.slot-card.booked .slot-badge{background:#f8d0d8;color:var(--red)}
+.slot-card.closed .slot-badge{background:#e0d0d8;color:#806070}
+.slot-svc{font-size:.75rem;color:var(--muted);margin-bottom:.6rem;line-height:1.4}
+.btn-slot{
+  width:100%;font-size:.75rem;border-radius:8px;padding:5px 0;border:1px solid;
+  transition:all .2s;
+}
+.btn-slot-close{background:var(--red-lt);color:var(--red);border-color:#f0c0cc}
+.btn-slot-open{background:var(--green-lt);color:var(--green);border-color:#b8e8cc}
+.btn-slot-cancel{background:#fff5f8;color:var(--rose);border-color:var(--rose-md)}
+
+/* admin services */
+.add-svc-form{
+  background:#fff;border:1px solid var(--border);
+  border-radius:1rem;padding:1.5rem;margin-bottom:1.5rem;
+}
+.add-svc-form h4{font-size:1rem;font-weight:500;margin-bottom:1rem}
+.add-svc-inputs{
+  display:grid;grid-template-columns:1fr 90px 110px;
+  gap:.75rem;margin-bottom:.75rem;
+}
+.svc-admin-list{display:flex;flex-direction:column;gap:.6rem}
+.svc-admin-item{
+  background:#fff;border:1px solid var(--border);
+  border-radius:12px;padding:1rem 1.25rem;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.svc-admin-item-name{font-size:.95rem;font-weight:500;color:var(--ink)}
+.svc-admin-item-meta{font-size:.8rem;color:var(--muted);margin-top:2px}
+.btn-del{
+  background:var(--red-lt);color:var(--red);
+  border:1px solid #f0c0cc;border-radius:8px;
+  padding:6px 14px;font-size:.8rem;
+}
+
+/* ── util ─────────────────────────────────────────────────────── */
+.mt1{margin-top:.5rem}
+.mt2{margin-top:1rem}
+.mt3{margin-top:1.5rem}
+
+/* ── responsive ───────────────────────────────────────────────── */
+@media(max-width:700px){
+  .about{grid-template-columns:1fr;gap:2rem}
+  .about-photo{max-width:200px;aspect-ratio:1/1;font-size:4rem}
+  .add-svc-inputs{grid-template-columns:1fr}
+  .hero{padding:4rem 1.25rem 3rem}
+  nav .nav-links .nav-btn:nth-child(3){display:none}/* hide admin on small */
+}
+</style>
+</head>
+<body>
+
+<!-- ──────────────── NAV ──────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="showPage('home')">✦ Нателла</div>
+    <div class="nav-links">
+      <button class="nav-btn active" id="nav-home"    onclick="showPage('home')">Главная</button>
+      <button class="nav-btn"        id="nav-booking" onclick="showPage('booking')">Записаться</button>
+      <button class="nav-btn"        id="nav-admin"   onclick="showPage('admin')">Для администратора</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ──────────────── HOME ─────────────────────────────────────── -->
+<div id="page-home" class="page active">
+
+  <!-- hero -->
+  <section class="hero">
+    <p class="hero-eyebrow">Косметолог · Алматы</p>
+    <h1>Сияющая кожа —<br/><em>это ваше право</em></h1>
+    <p class="hero-sub">Индивидуальный подход, профессиональные средства и результат, который вы почувствуете уже после первой процедуры.</p>
+    <button class="btn-primary" onclick="showPage('booking')">Записаться онлайн</button>
+  </section>
+
+  <!-- about -->
+  <section class="about">
+    <div class="about-photo">🌸</div>
+    <div>
+      <p class="section-eyebrow">О специалисте</p>
+      <h2>Нателла Садыкова</h2>
+      <p>Дипломированный косметолог-эстетист с опытом более 7 лет. Специализируюсь на уходе за проблемной кожей, антивозрастных процедурах и профессиональных пилингах.</p>
+      <p>Использую только сертифицированную косметику брендов Dermalogica, Medik8 и Holy Land. Каждая процедура начинается с детального анализа кожи.</p>
+      <div class="about-stats">
+        <div><div class="stat-n">7+</div><div class="stat-l">лет опыта</div></div>
+        <div><div class="stat-n">1 200+</div><div class="stat-l">клиентов</div></div>
+        <div><div class="stat-n">15+</div><div class="stat-l">сертификатов</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- services -->
+  <section class="services-sec">
+    <p class="section-eyebrow" style="text-align:center">Что я предлагаю</p>
+    <h2>Услуги</h2>
+    <p class="sec-sub">Нажмите на услугу, чтобы сразу перейти к записи</p>
+    <div class="services-grid" id="home-svc-grid"><!-- rendered by JS --></div>
+    <div class="services-cta">
+      <button class="btn-outline" onclick="showPage('booking')">Записаться на процедуру</button>
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer>
+    <div class="ft-logo">✦ Нателла — косметолог</div>
+    <p>Алматы, ул. Абая 14, кабинет 205</p>
+    <p>Режим работы: пн–сб 09:00–19:00</p>
+    <p style="margin-top:.75rem"><a id="tg-footer" href="#">Telegram →</a></p>
+  </footer>
+</div>
+
+<!-- ──────────────── BOOKING ──────────────────────────────────── -->
+<div id="page-booking" class="page">
+  <div class="booking-wrap">
+    <h2>Онлайн-запись</h2>
+    <p class="booking-sub">Выберите услугу, удобную дату и время</p>
+
+    <!-- progress -->
+    <div class="progress-bar" id="progress-bar"></div>
+
+    <!-- step 1: service -->
+    <div class="step active" id="step-1">
+      <p class="step-title">Шаг 1 — Выберите услугу</p>
+      <div class="svc-list" id="booking-svc-list"></div>
+    </div>
+
+    <!-- step 2: date -->
+    <div class="step" id="step-2">
+      <button class="back-btn" onclick="goStep(1)">← Назад</button>
+      <p class="step-title">Шаг 2 — Выберите дату</p>
+      <div class="date-grid" id="date-grid"></div>
+    </div>
+
+    <!-- step 3: time -->
+    <div class="step" id="step-3">
+      <button class="back-btn" onclick="goStep(2)">← Назад</button>
+      <p class="step-title" id="step3-title">Шаг 3 — Выберите время</p>
+      <div class="time-grid" id="time-grid"></div>
+    </div>
+
+    <!-- step 4: confirm -->
+    <div class="step" id="step-4">
+      <button class="back-btn" onclick="goStep(3)">← Назад</button>
+      <p class="step-title">Шаг 4 — Подтверждение</p>
+      <div class="confirm-card">
+        <div class="confirm-row"><span class="cr-label">Услуга</span>  <span class="cr-value" id="cf-svc"></span></div>
+        <div class="confirm-row"><span class="cr-label">Дата</span>    <span class="cr-value" id="cf-date"></span></div>
+        <div class="confirm-row"><span class="cr-label">Время</span>   <span class="cr-value" id="cf-time"></span></div>
+        <div class="confirm-row"><span class="cr-label">Стоимость</span><span class="cr-value" id="cf-price"></span></div>
+        <p class="confirm-note">После нажатия откроется Telegram с готовым сообщением. Нателла подтвердит запись в ближайшее время.</p>
+        <button class="btn-tg" onclick="confirmBooking()">
+          <svg class="tg-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.9 8.2-2.1 9.9c-.15.68-.56.84-1.13.52l-3.1-2.28-1.5 1.44c-.17.16-.3.3-.62.3l.22-3.17 5.72-5.17c.25-.22-.05-.34-.38-.12L7.55 14.6l-3.06-.95c-.67-.2-.68-.67.14-.99l11.87-4.58c.56-.2 1.05.14.87.99z"/></svg>
+          Записаться в Telegram
+        </button>
+      </div>
+    </div>
+
+    <!-- step 5: success -->
+    <div class="step" id="step-5">
+      <div class="success-block">
+        <div class="s-icon">🌸</div>
+        <h3>Отлично!</h3>
+        <p>Ваш запрос отправлен в Telegram.<br/>Нателла подтвердит запись в ближайшее время.</p>
+        <button class="btn-primary" onclick="resetBooking()">Записаться ещё раз</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ──────────────── ADMIN ────────────────────────────────────── -->
+<div id="page-admin" class="page">
+
+  <!-- login -->
+  <div id="admin-login">
+    <div class="login-card">
+      <h2>Панель управления</h2>
+      <p>Доступ только для администратора</p>
+      <label class="form-label" for="pwd-input">Пароль</label>
+      <input class="form-input" id="pwd-input" type="password" placeholder="Введите пароль"
+             onkeydown="if(event.key==='Enter')adminLogin()"/>
+      <p class="form-error" id="pwd-error" style="display:none">Неверный пароль</p>
+      <button class="btn-primary mt2" style="width:100%" onclick="adminLogin()">Войти</button>
+      <p class="login-hint">Пароль по умолчанию: admin123</p>
+    </div>
+  </div>
+
+  <!-- panel -->
+  <div id="admin-panel" style="display:none">
+    <div class="admin-wrap">
+      <div class="admin-header">
+        <h2>Панель управления</h2>
+        <button class="btn-sm btn-close-day" onclick="adminLogout()">Выйти</button>
+      </div>
+
+      <div class="admin-tabs">
+        <button class="tab-btn active" onclick="adminTab('schedule',this)">📅 Расписание</button>
+        <button class="tab-btn"        onclick="adminTab('services',this)">💼 Услуги</button>
+      </div>
+
+      <!-- schedule tab -->
+      <div class="tab-panel active" id="tab-schedule">
+        <p class="step-title" style="margin-bottom:.75rem">Выберите день</p>
+        <div class="day-strip" id="admin-day-strip"></div>
+        <div class="day-actions">
+          <button class="btn-sm btn-close-day" onclick="adminCloseDay()">🔒 Закрыть весь день</button>
+          <button class="btn-sm btn-open-day"  onclick="adminOpenDay()">🔓 Открыть весь день</button>
+        </div>
+        <div class="slots-grid" id="admin-slots-grid"></div>
+      </div>
+
+      <!-- services tab -->
+      <div class="tab-panel" id="tab-services">
+        <div class="add-svc-form">
+          <h4>Добавить услугу</h4>
+          <div class="add-svc-inputs">
+            <input class="form-input" id="new-svc-name" placeholder="Название услуги"/>
+            <input class="form-input" id="new-svc-dur"  type="number" placeholder="Мин." value="60"/>
+            <input class="form-input" id="new-svc-price" placeholder="Цена"/>
+          </div>
+          <button class="btn-primary" style="padding:10px 24px;font-size:.9rem" onclick="addService()">+ Добавить</button>
+        </div>
+        <div class="svc-admin-list" id="admin-svc-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ──────────────── JAVASCRIPT ───────────────────────────────── -->
+<script>
+/* ─── config ──────────────────────────────────────────────────── */
+const TG_USERNAME  = '99634092908';
+const ADMIN_PASS   = 'admin123';
+const HOURS = ['08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00'];
+const SVC_ICONS    = ['🧴','✨','💆','🌿','🌸','💎','🪷','🫧'];
+
+const DEFAULT_SERVICES = [
+  {id:1, name:'Механическая чистка лица',  duration:90, price:'3 500 ₸'},
+  {id:2, name:'Ультразвуковая чистка',      duration:60, price:'2 800 ₸'},
+  {id:3, name:'Химический пилинг',          duration:60, price:'4 000 ₸'},
+  {id:4, name:'Увлажняющий уход',           duration:75, price:'3 200 ₸'},
+  {id:5, name:'Омолаживающая маска',        duration:60, price:'2 500 ₸'},
+  {id:6, name:'Броссаж (массаж лица)',      duration:45, price:'2 000 ₸'},
+];
+
+/* ─── state ───────────────────────────────────────────────────── */
+let services = [];
+let slots    = {}; // key: "YYYY-MM-DD_HH:00"  value: {booked,closed,service}
+
+// booking state
+let selService = null;
+let selDate    = null;
+let selTime    = null;
+let curStep    = 1;
+
+// admin
+let adminSelectedDate = todayStr();
+
+/* ─── storage ─────────────────────────────────────────────────── */
+function saveServices(){ localStorage.setItem('svc', JSON.stringify(services)) }
+function saveSlots()   { localStorage.setItem('slots', JSON.stringify(slots)) }
+function loadAll(){
+  try{ services = JSON.parse(localStorage.getItem('svc'))  || DEFAULT_SERVICES }
+  catch{ services = DEFAULT_SERVICES }
+  try{ slots    = JSON.parse(localStorage.getItem('slots'))|| {} }
+  catch{ slots  = {} }
+}
+
+/* ─── utils ───────────────────────────────────────────────────── */
+function todayStr(){
+  return new Date().toISOString().split('T')[0];
+}
+function getDays(n){
+  return Array.from({length:n},(_,i)=>{
+    const d=new Date(); d.setDate(d.getDate()+i);
+    return d.toISOString().split('T')[0];
+  });
+}
+function fmtDate(str){
+  return new Date(str).toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long'});
+}
+function fmtDateShort(str){
+  const d=new Date(str);
+  return d.toLocaleDateString('ru-RU',{day:'numeric',month:'short'});
+}
+function slotKey(date,time){ return date+'_'+time }
+function isBooked(d,t){ return !!(slots[slotKey(d,t)]||{}).booked }
+function isClosed(d,t){ return !!(slots[slotKey(d,t)]||{}).closed }
+function isDayFull(d){ return HOURS.every(h=>isBooked(d,h)||isClosed(d,h)) }
+function openTG(svcName){
+  const txt=encodeURIComponent(`Здравствуйте, можно записаться на "${svcName}"?`);
+  window.open(`https://t.me/${TG_USERNAME}?text=${txt}`,'_blank');
+}
+
+/* ─── page routing ────────────────────────────────────────────── */
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.getElementById('nav-'+id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='home')    renderHome();
+  if(id==='booking') renderBooking();
+  if(id==='admin')   renderAdminDays();
+}
+
+/* ─── HOME ────────────────────────────────────────────────────── */
+function renderHome(){
+  const grid=document.getElementById('home-svc-grid');
+  grid.innerHTML=services.map((s,i)=>`
+    <div class="svc-card" onclick="pickServiceFromHome(${s.id})">
+      <div class="svc-icon">${SVC_ICONS[i%SVC_ICONS.length]}</div>
+      <div class="svc-name">${s.name}</div>
+      <div class="svc-dur">${s.duration} мин</div>
+      <div class="svc-price">${s.price}</div>
+    </div>`).join('');
+  document.getElementById('tg-footer').href=`https://t.me/${TG_USERNAME}`;
+}
+function pickServiceFromHome(id){
+  selService=services.find(s=>s.id===id)||null;
+  showPage('booking');
+  if(selService){ goStep(2); renderDates(); }
+}
+
+/* ─── BOOKING ─────────────────────────────────────────────────── */
+function renderBooking(){
+  renderProgress();
+  renderServiceList();
+  renderDates();
+  if(selService && selDate) renderTimes();
+  // show correct step
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step-'+curStep).classList.add('active');
+}
+function renderProgress(){
+  const steps=['Услуга','Дата','Время','Подтверждение'];
+  const bar=document.getElementById('progress-bar');
+  bar.innerHTML=steps.map((l,i)=>{
+    const n=i+1;
+    const cls=n<curStep?'done':n===curStep?'current':'todo';
+    const lineCls=n<curStep?'done':'todo';
+    return `<div class="progress-dot ${cls}">${n<curStep?'✓':n}</div>`
+           +(n<4?`<div class="progress-line ${lineCls}"></div>`:'');
+  }).join('');
+}
+function goStep(n){
+  curStep=n;
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step-'+n).classList.add('active');
+  renderProgress();
+  if(n===3 && selDate) renderTimes();
+  if(n===4) renderConfirm();
+}
+function renderServiceList(){
+  document.getElementById('booking-svc-list').innerHTML=services.map(s=>`
+    <div class="svc-item ${selService&&selService.id===s.id?'selected':''}"
+         onclick="selectService(${s.id})">
+      <div>
+        <div class="svc-item-name">${s.name}</div>
+        <div class="svc-item-dur">${s.duration} мин</div>
+      </div>
+      <div class="svc-item-price">${s.price}</div>
+    </div>`).join('');
+}
+function selectService(id){
+  selService=services.find(s=>s.id===id);
+  goStep(2); renderDates();
+}
+function renderDates(){
+  const days=getDays(14);
+  document.getElementById('date-grid').innerHTML=days.map(d=>{
+    const full=isDayFull(d);
+    const sel=d===selDate;
+    const dd=new Date(d);
+    return `<button class="date-btn ${sel?'selected':''}" ${full?'disabled':''} onclick="selectDate('${d}')">
+      <div class="date-num">${dd.getDate()}</div>
+      <div class="date-wd">${dd.toLocaleDateString('ru-RU',{weekday:'short'})}</div>
+    </button>`;
+  }).join('');
+}
+function selectDate(d){
+  selDate=d;
+  selTime=null;
+  goStep(3);
+}
+function renderTimes(){
+  const title=document.getElementById('step3-title');
+  if(selDate) title.textContent=`Шаг 3 — Выберите время · ${fmtDate(selDate)}`;
+  document.getElementById('time-grid').innerHTML=HOURS.map(h=>{
+    const booked=isBooked(selDate,h);
+    const closed=isClosed(selDate,h);
+    const free=!booked&&!closed;
+    const sel=h===selTime;
+    const stateClass=booked?'booked':closed?'closed':'free';
+    const label=booked?'занято':closed?'закрыто':'свободно';
+    return `<button class="time-btn ${stateClass} ${sel?'selected':''}"
+              ${!free?'disabled':''}
+              onclick="${free?`selectTime('${h}')`:''}" >
+      <div class="t-hour">${h}</div>
+      <div class="t-status">${label}</div>
+    </button>`;
+  }).join('');
+}
+function selectTime(t){
+  selTime=t;
+  goStep(4);
+}
+function renderConfirm(){
+  document.getElementById('cf-svc').textContent  = selService?.name||'';
+  document.getElementById('cf-date').textContent = selDate ? fmtDate(selDate) : '';
+  document.getElementById('cf-time').textContent = selTime||'';
+  document.getElementById('cf-price').textContent= selService?.price||'';
+}
+function confirmBooking(){
+  if(!selService||!selDate||!selTime) return;
+  // mark slot as booked
+  const key=slotKey(selDate,selTime);
+  slots[key]={booked:true,service:selService.name};
+  saveSlots();
+  // open telegram
+  openTG(selService.name);
+  goStep(5);
+}
+function resetBooking(){
+  selService=null; selDate=null; selTime=null;
+  curStep=1;
+  renderBooking();
+}
+
+/* ─── ADMIN ────────────────────────────────────────────────────── */
+let adminAuthed=false;
+function adminLogin(){
+  const v=document.getElementById('pwd-input').value;
+  if(v===ADMIN_PASS){
+    adminAuthed=true;
+    document.getElementById('admin-login').style.display='none';
+    document.getElementById('admin-panel').style.display='block';
+    renderAdminDays();
+    renderAdminSlots();
+    renderAdminServices();
+  } else {
+    document.getElementById('pwd-error').style.display='block';
+  }
+}
+function adminLogout(){
+  adminAuthed=false;
+  document.getElementById('admin-login').style.display='block';
+  document.getElementById('admin-panel').style.display='none';
+  document.getElementById('pwd-input').value='';
+  document.getElementById('pwd-error').style.display='none';
+}
+function adminTab(id,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+}
+function renderAdminDays(){
+  if(!adminAuthed) return;
+  const days=getDays(14);
+  document.getElementById('admin-day-strip').innerHTML=days.map(d=>`
+    <button class="day-pill ${d===adminSelectedDate?'selected':''}"
+            onclick="adminSelectDay('${d}')">
+      ${new Date(d).getDate()} ${new Date(d).toLocaleDateString('ru-RU',{weekday:'short'})}
+    </button>`).join('');
+}
+function adminSelectDay(d){
+  adminSelectedDate=d;
+  renderAdminDays();
+  renderAdminSlots();
+}
+function renderAdminSlots(){
+  if(!adminAuthed) return;
+  const d=adminSelectedDate;
+  document.getElementById('admin-slots-grid').innerHTML=HOURS.map(h=>{
+    const sl=slots[slotKey(d,h)]||{};
+    const booked=!!sl.booked, closed=!!sl.closed, free=!booked&&!closed;
+    const stateClass=booked?'booked':closed?'closed':'free';
+    const label=booked?'Занято':closed?'Закрыто':'Свободно';
+    const btn=booked
+      ?`<button class="btn-slot btn-slot-cancel" onclick="adminCancelSlot('${d}','${h}')">Отменить запись</button>`
+      :closed
+        ?`<button class="btn-slot btn-slot-open" onclick="adminToggleClosed('${d}','${h}')">Открыть</button>`
+        :`<button class="btn-slot btn-slot-close" onclick="adminToggleClosed('${d}','${h}')">Закрыть</button>`;
+    return `<div class="slot-card ${stateClass}">
+      <div class="slot-time">${h}</div>
+      <span class="slot-badge">${label}</span>
+      ${booked?`<div class="slot-svc">${sl.service||''}</div>`:''}
+      ${btn}
+    </div>`;
+  }).join('');
+}
+function adminToggleClosed(d,h){
+  const key=slotKey(d,h);
+  const cur=slots[key]||{};
+  slots[key]={...cur, closed:!cur.closed};
+  saveSlots();
+  renderAdminSlots();
+}
+function adminCancelSlot(d,h){
+  const key=slotKey(d,h);
+  const {booked,service,...rest}=slots[key]||{};
+  slots[key]=rest;
+  saveSlots();
+  renderAdminSlots();
+}
+function adminCloseDay(){
+  const d=adminSelectedDate;
+  HOURS.forEach(h=>{
+    const key=slotKey(d,h);
+    slots[key]={...(slots[key]||{}),closed:true};
+  });
+  saveSlots();
+  renderAdminSlots();
+}
+function adminOpenDay(){
+  const d=adminSelectedDate;
+  HOURS.forEach(h=>{
+    const key=slotKey(d,h);
+    const cur=slots[key]||{};
+    if(!cur.booked) slots[key]={...cur,closed:false};
+  });
+  saveSlots();
+  renderAdminSlots();
+}
+function renderAdminServices(){
+  if(!adminAuthed) return;
+  document.getElementById('admin-svc-list').innerHTML=services.map(s=>`
+    <div class="svc-admin-item">
+      <div>
+        <div class="svc-admin-item-name">${s.name}</div>
+        <div class="svc-admin-item-meta">${s.duration} мин &middot; ${s.price}</div>
+      </div>
+      <button class="btn-del" onclick="removeService(${s.id})">Удалить</button>
+    </div>`).join('');
+}
+function addService(){
+  const name=document.getElementById('new-svc-name').value.trim();
+  const dur =parseInt(document.getElementById('new-svc-dur').value)||60;
+  const price=document.getElementById('new-svc-price').value.trim();
+  if(!name||!price) return;
+  services.push({id:Date.now(),name,duration:dur,price});
+  saveServices();
+  renderAdminServices();
+  renderHome();
+  document.getElementById('new-svc-name').value='';
+  document.getElementById('new-svc-price').value='';
+}
+function removeService(id){
+  services=services.filter(s=>s.id!==id);
+  saveServices();
+  renderAdminServices();
+  renderHome();
+}
+
+/* ─── INIT ─────────────────────────────────────────────────────── */
+loadAll();
+renderHome();
+renderBooking();
+</script>
+</body>
+</html>
